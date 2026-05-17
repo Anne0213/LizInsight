@@ -815,9 +815,9 @@
     </div>
   </div>
 
-  <!-- 德兰明海 / 站内运营弹窗 -->
+  <!-- 德兰明海 / 项目运营 + 日常运营弹窗 -->
   <div class="modal-overlay" data-modal-id="work-delan" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-delan-title">
+    <div class="modal modal--wide" role="dialog" aria-modal="true" aria-labelledby="modal-delan-title">
       <button class="modal__close" aria-label="关闭">×</button>
       <p class="modal__year">2025.10 — 至今</p>
       <h3 class="modal__title" id="modal-delan-title">独立站运营</h3>
@@ -825,18 +825,55 @@
         <a class="modal__brand" href="https://bluettipower.co.uk/" target="_blank" rel="noopener">BLUETTI<span aria-hidden="true">↗</span></a>
       </p>
 
-      <div class="modal__sections">
+      <!-- 角色 Tab -->
+      <div class="modal__role-tabs">
+        <button class="modal-tab is-active" data-role-target="projects">项目运营</button>
+        <button class="modal-tab" data-role-target="ops">日常运营</button>
+      </div>
+
+      <!-- 项目运营 -->
+      <div class="modal__role-panel is-active" data-role-panel="projects">
         <section>
-          <h4>项目管理</h4>
+          <h5>促销 / 内容专题页策划</h5>
           <ol class="modal__list">
-            <li><strong>设计网页组件：</strong>在熟悉页面配置逻辑的前提下，利用 AI 快速设计多方案的网页组件，交付 PRD 文档的同时交付原型代码，减少与开发部门的沟通成本。</li>
-            <li><strong>活动策划：</strong>负责地球日、英国银行日等专题促销活动，主导内容教育页的上线。根据调研结果输出设计文档、文案与排版需求文档，确定活动玩法等。</li>
-            <li><strong>跨部门协同：</strong>搭建项目管理表格，对接设计、开发、站长等多团队，跟进任务节点，验收页面，确保项目按时落地。</li>
+            <li><strong>促销活动：</strong>4 月地球日促销、5 月英国银行日促销、5 月房车（Roadtrips）专题、5 月 Solar Generators 专题等。代表项目 4 月地球日欧盟站点：平均停留时长 3 分 04 秒、加购量 918、加购率 3.59%。</li>
+            <li><strong>教育 / 品牌 / 品类页：</strong>冬季暴雪冻雨教育专题、家庭备电（Home Backup）专题、Solar Panels 专题页、停产产品页、品牌大事件等。代表项目 家庭备电专题页：平均停留时长 3 分 43 秒。</li>
+            <li><strong>执行方法：</strong>前期通过 Semrush + AI 关键词调研（用户搜索词 / 长尾词等）、竞品促销页拆解（文案 / 排版 / 组件功能）、用户需求洞察，驱动页面文案方向与产品卖点；中期输出设计、文案、活动玩法（闪购 / 积分加倍等）需求文档；后期协同运营配置页面，验收页面，0 重大上线事故 / 0 延期项目。</li>
           </ol>
         </section>
 
         <section>
-          <h4>日常运营</h4>
+          <h5>官网功能迭代</h5>
+          <p>基于销售转化、用户购物体验、运营效率三大目标，从需求分析、PRD 输出、开发协同到上线验收全流程主导：</p>
+          <ol class="modal__list">
+            <li><strong>促进销售转化：</strong>促销页产品卡片组件优化（新增「一句话卖点」功能，强化产品核心利益点传达）；产品对比表组件升级（辅助用户在多 SKU 间快速决策）。</li>
+            <li><strong>优化用户购物体验：</strong>首尾部导航栏改版（重构信息架构、提升核心入口可见度）；产品系列页改版（新增筛选 + FAQ 模块，缩短用户决策路径）；首页推荐板块 hover 切换场景图（提升产品场景代入感）。</li>
+            <li><strong>提升运营效率：</strong>导航栏页面重定向机制（避免同一产品多链接流量损耗与 SEO 权重流失）；停产页面变体 ID 自动抓图（减少手工配置成本、杜绝图片错配）。</li>
+          </ol>
+        </section>
+
+        <section>
+          <h5>跨部门协同与 AI 提效</h5>
+          <ol class="modal__list">
+            <li><strong>项目进度管理：</strong>用 AI 搭建项目管理表格，跟进任务节点、识别延期风险，对接设计、开发、站长等多团队，确保任务按时完成。</li>
+            <li><strong>可交互原型 + PRD 同步交付：</strong>用 AI 快速产出多方案网页组件可交互原型代码，与 PRD 文档同步交付，让需求一次评审到位，降低跨部门沟通成本与设计 / 开发返工次数。</li>
+            <li><strong>多站点 AI 自动化验收：</strong>用 AI 批量验收近 10 个站点的页面（覆盖文案一致性、组件配置、本地化校对等维度），减少人工逐站点核对的重复劳动，保障多市场上线一致性与质量。</li>
+          </ol>
+        </section>
+
+        <section>
+          <h5>数据分析与复盘</h5>
+          <ol class="modal__list">
+            <li><strong>页面数据监控与迭代：</strong>用 Ptengine、GA4 持续监控核心页面（促销页 / 内容专题页）的访问量、停留时长、加购率、转化率、跳出率等关键指标，定位问题页面，通过 A/B Test 验证优化方案，驱动已上线功能与组件持续迭代。</li>
+            <li><strong>竞对分析与场景对标：</strong>定期拆解竞对（如 Anker、Jackery、EcoFlow 等）的促销页主题、文案、排版、组件功能、活动玩法，识别市场机会与短板，作为功能迭代与活动策划的参考。</li>
+          </ol>
+        </section>
+      </div>
+
+      <!-- 日常运营（待你的新版本，先保留旧的内容） -->
+      <div class="modal__role-panel" data-role-panel="ops">
+        <section>
+          <h5>日常运营</h5>
           <ol class="modal__list">
             <li><strong>订单管理：</strong>根据客户需求取消、创建订单，审批待发货订单，处理客服问题，协同物流发货。</li>
             <li><strong>产品管理：</strong>爬取全站产品数据，维护产品价格、SKU、产品 tag 标签、元字段、库存管理。</li>
@@ -845,16 +882,6 @@
             <li><strong>用户运营：</strong>配置 EDM、弹窗、会员权益体系，促进订阅量、邮件打开率与转化率提升。</li>
           </ol>
         </section>
-
-
-        <section>
-          <h4>数据分析与复盘</h4>
-          <ol class="modal__list">
-            <li><strong>竞对分析：</strong>分析竞对促销页面的主题、文案、排版，识别竞对的优势与短板，加以学习和规避。</li>
-            <li><strong>页面埋点与分析：</strong>利用 Ptengine、GA4 等工具分析关键数据指标（访问量、页面停留时长、加购率、转化率等），通过 A/B Test 优化页面布局和组件。</li>
-          </ol>
-        </section>
-
       </div>
     </div>
   </div>
