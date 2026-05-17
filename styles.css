@@ -1163,12 +1163,12 @@ body {
 /* ============ 原型设计 slide · 一变多方案动画 ============ */
 .media__slide--prototype .wireframe-svg {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 78%;
+  width: 72%;
   height: auto;
-  max-height: 90%;
+  max-height: 74%;
   display: block;
   filter: drop-shadow(0 4px 12px rgba(30, 64, 175, 0.18));
 }
