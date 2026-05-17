@@ -1,0 +1,21 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#3b6ee8"/>
+      <stop offset="100%" stop-color="#7b5ef2"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g4)"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round">
+    <path d="M -50 410 Q 180 250, 360 380 Q 540 480, 720 320 Q 800 270, 850 300" stroke-width="2" opacity="0.5"/>
+    <path d="M -50 450 Q 180 320, 360 420 Q 540 510, 720 380 Q 800 340, 850 360" stroke-width="2" opacity="0.3"/>
+    <path d="M -50 370 Q 200 220, 400 350 Q 600 460, 800 280" stroke-width="1.5" opacity="0.2"/>
+  </g>
+  <text x="42" y="195" font-family="-apple-system, PingFang SC, sans-serif"
+        font-size="190" font-weight="800" fill="#ffffff" opacity="0.16">04</text>
+  <g font-family="-apple-system, PingFang SC, sans-serif" fill="#ffffff" font-weight="700">
+    <text x="42" y="270" font-size="30">我用 openclaw 把思想家</text>
+    <text x="42" y="308" font-size="30">拉进飞书群聊</text>
+    <text x="42" y="346" font-size="30">开研讨会</text>
+  </g>
+</svg>

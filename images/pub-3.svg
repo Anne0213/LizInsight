@@ -1,0 +1,20 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#4860dd"/>
+      <stop offset="100%" stop-color="#8e5cf2"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g3)"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round">
+    <path d="M -50 420 Q 100 280, 220 400 Q 340 480, 460 340 Q 580 230, 700 380 Q 780 430, 850 360" stroke-width="2" opacity="0.55"/>
+    <path d="M -50 460 Q 100 340, 220 440 Q 340 510, 460 400 Q 580 300, 700 430 Q 780 470, 850 410" stroke-width="2" opacity="0.3"/>
+    <path d="M -50 380 Q 150 250, 280 360 Q 420 460, 560 300 Q 700 200, 850 290" stroke-width="1.5" opacity="0.2"/>
+  </g>
+  <text x="42" y="195" font-family="-apple-system, PingFang SC, sans-serif"
+        font-size="190" font-weight="800" fill="#ffffff" opacity="0.16">03</text>
+  <g font-family="-apple-system, PingFang SC, sans-serif" fill="#ffffff" font-weight="700">
+    <text x="42" y="285" font-size="34">构建 LLM 知识库时，</text>
+    <text x="42" y="328" font-size="34">我思考的几个问题</text>
+  </g>
+</svg>

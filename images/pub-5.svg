@@ -1,0 +1,20 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#5345d6"/>
+      <stop offset="100%" stop-color="#9760f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g5)"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round">
+    <path d="M -50 440 Q 160 290, 320 380 Q 480 460, 640 320 Q 760 230, 850 280" stroke-width="2" opacity="0.5"/>
+    <path d="M -50 480 Q 160 360, 320 430 Q 480 500, 640 380 Q 760 300, 850 340" stroke-width="2" opacity="0.3"/>
+    <path d="M -50 400 Q 200 260, 380 350 Q 560 430, 740 280 Q 800 230, 850 250" stroke-width="1.5" opacity="0.2"/>
+  </g>
+  <text x="42" y="195" font-family="-apple-system, PingFang SC, sans-serif"
+        font-size="190" font-weight="800" fill="#ffffff" opacity="0.16">05</text>
+  <g font-family="-apple-system, PingFang SC, sans-serif" fill="#ffffff" font-weight="700">
+    <text x="42" y="285" font-size="34">不依赖开发也能实时</text>
+    <text x="42" y="328" font-size="34">获取竞对全网产品数据</text>
+  </g>
+</svg>

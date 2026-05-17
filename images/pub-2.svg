@@ -1,0 +1,20 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#5b4dd6"/>
+      <stop offset="100%" stop-color="#a06bf5"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g2)"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round">
+    <path d="M -50 380 C 150 280, 320 460, 500 360 S 750 250, 850 320" stroke-width="2" opacity="0.5"/>
+    <path d="M -50 430 C 150 350, 320 510, 500 410 S 750 320, 850 380" stroke-width="2" opacity="0.3"/>
+    <path d="M -50 340 C 200 240, 380 400, 560 320 S 760 220, 850 260" stroke-width="1.5" opacity="0.2"/>
+  </g>
+  <text x="42" y="195" font-family="-apple-system, PingFang SC, sans-serif"
+        font-size="190" font-weight="800" fill="#ffffff" opacity="0.16">02</text>
+  <g font-family="-apple-system, PingFang SC, sans-serif" fill="#ffffff" font-weight="700">
+    <text x="42" y="285" font-size="34">AI 时代下的</text>
+    <text x="42" y="328" font-size="34">自动化知识管理系统</text>
+  </g>
+</svg>

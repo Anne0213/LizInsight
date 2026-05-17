@@ -1,0 +1,20 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#3d57e8"/>
+      <stop offset="100%" stop-color="#7a5bf2"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g1)"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round">
+    <path d="M -50 430 Q 200 310, 400 360 T 850 320" stroke-width="2"  opacity="0.55"/>
+    <path d="M -50 470 Q 200 360, 400 400 T 850 360" stroke-width="2"  opacity="0.32"/>
+    <path d="M -50 390 Q 250 270, 500 310 T 850 280" stroke-width="1.5" opacity="0.22"/>
+  </g>
+  <text x="42" y="195" font-family="-apple-system, PingFang SC, sans-serif"
+        font-size="190" font-weight="800" fill="#ffffff" opacity="0.16">01</text>
+  <g font-family="-apple-system, PingFang SC, sans-serif" fill="#ffffff" font-weight="700">
+    <text x="42" y="285" font-size="34">我搭建了一个与 Agent</text>
+    <text x="42" y="328" font-size="34">交互的记账系统</text>
+  </g>
+</svg>

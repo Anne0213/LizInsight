@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Claude Code 本地配置
+.claude/
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 日志
+*.log
+
+# 未在网站使用的本地素材
+云鲸产品对比页面/
