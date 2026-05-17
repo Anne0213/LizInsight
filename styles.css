@@ -1282,6 +1282,7 @@ body {
 /* ============ 视觉设计 slide · 左到右擦除动画 ============ */
 .media__slide--handwriting img {
   clip-path: inset(0 100% 0 0);
+  object-position: center 92%;
 }
 
 .media__slide--handwriting.is-active img {
