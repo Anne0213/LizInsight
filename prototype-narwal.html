@@ -1035,9 +1035,9 @@
 
   .prologue__pains {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    max-width: 980px;
+    max-width: 820px;
     margin: 0 auto 52px;
   }
   .prologue__pain {
@@ -1127,7 +1127,7 @@
 
   @media (max-width: 760px) {
     .prologue { padding: 48px 18px 32px; }
-    .prologue__pains { grid-template-columns: repeat(2, 1fr); }
+    .prologue__pains { grid-template-columns: 1fr; }
     .chapter-mark { gap: 14px; margin: 64px auto 32px; padding-top: 22px; }
     .chapter-mark__num { font-size: 28px; }
     .chapter-mark__title { font-size: 15px; }
@@ -1148,21 +1148,19 @@
       想法到原型，中间隔着<span class="prologue__highlight">重重阻力</span>
     </h1>
     <p class="prologue__lead">
-      对产品经理来说，把脑里的画面落到屏幕上，从来不是「想清楚就能做」——PRD 难还原界面、方案排队等设计师、改稿循环开会、又估不准能否落地，每一步都是阻力。
+      对产品经理来说，「想清楚」≠「做出来」。从想法到原型，常常卡在三件事上：
     </p>
 
     <div class="prologue__pains">
       <div class="prologue__pain">
         <div class="prologue__pain-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="9" y1="13" x2="15" y2="13"/>
-            <line x1="9" y1="17" x2="13" y2="17"/>
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
           </svg>
         </div>
-        <h3>PRD 不可视 · 沟通有障碍</h3>
-        <p>纯文字 PRD 难还原界面，跟 UI 设计师、领导对齐总有偏差。</p>
+        <h3>想法卡在排期</h3>
+        <p>PRD 不会自动变界面——要排队等设计师、再等开发，等出原型方向可能已经变了。</p>
       </div>
 
       <div class="prologue__pain">
@@ -1173,8 +1171,8 @@
             <polyline points="2 12 12 17 22 12"/>
           </svg>
         </div>
-        <h3>多方案对比 · 周期成倍</h3>
-        <p>一个功能加不加、加在哪，几版方案加长落地周期。</p>
+        <h3>多方案没法对比</h3>
+        <p>一个功能加不加、加哪种交互，每多一版方案就多一轮排期，最后只能凭经验拍板。</p>
       </div>
 
       <div class="prologue__pain">
@@ -1185,19 +1183,8 @@
             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
           </svg>
         </div>
-        <h3>开会改稿循环</h3>
-        <p>开完会改方案，改完再开会——三五个回合下来一个月就没了。</p>
-      </div>
-
-      <div class="prologue__pain">
-        <div class="prologue__pain-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
-            <path d="M8 14l1.5-2 2 2.5 2.5-3 2 2.5" opacity="0.6"/>
-          </svg>
-        </div>
-        <h3>难度看不见 · 想法易天马行空</h3>
-        <p>非技术背景估不准实现成本，提案容易飘到最后落不了地。</p>
+        <h3>沟通在反复消耗</h3>
+        <p>PRD 跟设计 / 开发认知有偏差，开会 → 改稿 → 再开会，三五轮下来一个月就没了。</p>
       </div>
     </div>
 
