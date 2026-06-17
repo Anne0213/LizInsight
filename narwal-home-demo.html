@@ -212,7 +212,7 @@
   .hero__stage img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
-    object-fit: cover; object-position: 74% center;
+    object-fit: cover; object-position: center;
   }
   .hero__stage .ph-fallback {
     position: absolute; inset: 0;
@@ -270,46 +270,69 @@
   }
   .tab[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
 
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+  /* 横向轮播轨道：可滑动，右侧露出半张卡 */
+  .product-rail {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 6px 4px 22px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
   }
+  .product-rail::-webkit-scrollbar { height: 6px; }
+  .product-rail::-webkit-scrollbar-thumb { background: #d2d2d7; border-radius: 99px; }
   .panel[hidden] { display: none; }
   .pcard {
-    border: 1px solid var(--line);
+    flex: 0 0 300px;
+    scroll-snap-align: start;
     border-radius: 20px;
-    padding: 22px;
+    padding: 24px 22px;
     background: #fff;
     display: flex; flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
     transition: box-shadow .25s, transform .25s;
   }
   .pcard:hover { box-shadow: 0 18px 40px -22px rgba(0,0,0,.22); transform: translateY(-4px); }
   .pcard__tag {
     align-self: flex-start;
-    font-size: 12px; font-weight: 700;
-    padding: 4px 12px; border-radius: 999px;
-    background: var(--primary-soft); color: var(--primary-dark);
-    margin-bottom: 16px;
+    font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--primary); margin-bottom: 6px;
   }
-  .pcard__tag--seller { background:#fff3e0; color:#c97a13; }
-  .pcard__tag--value  { background:#e6f7ee; color:#1e8e5a; }
-  .pcard__img { aspect-ratio: 1/1; margin-bottom: 18px; }
-  .pcard__name { font-size: 21px; font-weight: 800; margin: 0 0 12px; }
+  .pcard__tag--seller { color:#c97a13; }
+  .pcard__tag--value  { color:#1e8e5a; }
+  .pcard__name { font-size: 22px; font-weight: 700; margin: 0 0 16px; letter-spacing: -.01em; }
+  .pcard__img { aspect-ratio: 4/3; margin-bottom: 14px; }
+  .pcard__img img { width: 100%; height: 100%; object-fit: contain; }
+  /* 色板圆点 */
+  .pcard__swatches { display: flex; gap: 7px; justify-content: center; margin-bottom: 18px; }
+  .pcard__swatches i {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 1px solid rgba(0,0,0,.12); display: inline-block;
+  }
   .pcard__usp { list-style: none; padding: 0; margin: 0 0 18px; }
   .pcard__usp li {
-    font-size: 14px; color: var(--ink-soft);
-    padding-left: 22px; position: relative; margin-bottom: 6px;
+    font-size: 13.5px; color: var(--ink-soft);
+    padding-left: 20px; position: relative; margin-bottom: 6px;
   }
   .pcard__usp li::before {
-    content: ""; position: absolute; left: 0; top: 8px;
-    width: 8px; height: 8px; border-radius: 50%; background: var(--primary);
+    content: ""; position: absolute; left: 0; top: 7px;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--primary);
   }
-  .pcard__price { margin: auto 0 16px; }
-  .pcard__price .was { color: var(--ink-mute); text-decoration: line-through; font-size: 14px; margin-right: 8px; }
-  .pcard__price .now { font-size: 24px; font-weight: 800; }
-  .pcard__cta { display: flex; gap: 10px; }
-  .pcard__cta .btn { flex: 1; justify-content: center; }
+  /* Apple 风价格：From + 价格 + /mo. */
+  .pcard__price { margin: auto 0 16px; font-size: 13px; color: var(--ink-soft); }
+  .pcard__price .now { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .pcard__price .was { text-decoration: line-through; color: var(--ink-mute); margin-left: 6px; }
+  /* 底部：Learn more 链接 + 蓝色 Buy 胶囊 */
+  .pcard__cta { display: flex; align-items: center; justify-content: space-between; }
+  .pcard__cta .learn { color: var(--primary); font-weight: 600; font-size: 14px; text-decoration: none; }
+  .pcard__cta .learn:hover { text-decoration: underline; }
+  .pcard__cta .buy {
+    background: var(--primary); color: #fff;
+    border-radius: 999px; padding: 8px 20px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+  }
+  .pcard__cta .buy:hover { background: var(--primary-dark); }
 
   /* ============ 4. 配件区 ============ */
   .acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -535,7 +558,7 @@
   </section>
 
   <!-- ============ 3. 产品系列区 ============ -->
-  <section class="section" id="products">
+  <section class="section section--alt" id="products">
     <div class="container">
       <div class="sec-head">
         <p class="eyebrow">Product System</p>
@@ -551,52 +574,72 @@
 
       <!-- Flow Series -->
       <div class="panel" data-panel="flow">
-        <div class="product-grid">
+        <div class="product-rail">
           <article class="pcard">
             <span class="pcard__tag">Flagship</span>
-            <div class="ph pcard__img">Flow 2</div>
             <h3 class="pcard__name">Flow 2</h3>
+            <div class="pcard__img"><img src="images/narwal-flow2.webp" alt="Flow 2" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#c9ccd1"></i><i style="background:#1d1d1f"></i></div>
             <ul class="pcard__usp">
               <li>AI Smart Mapping 2.0</li>
               <li>Fully Automated Cleaning Station</li>
               <li>Ultra-Quiet Deep Cleaning System</li>
             </ul>
-            <div class="pcard__price"><span class="was">$1,499</span><span class="now">$1,299</span></div>
+            <div class="pcard__price">From <span class="now">$1,299</span> <span class="was">$1,499</span> · or $108/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
 
           <article class="pcard">
             <span class="pcard__tag pcard__tag--seller">Best Seller</span>
-            <div class="ph pcard__img">X30</div>
-            <h3 class="pcard__name">X30</h3>
+            <h3 class="pcard__name">Flow</h3>
+            <div class="pcard__img"><img src="images/narwal-flow.webp" alt="Flow" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#1d1d1f"></i></div>
             <ul class="pcard__usp">
-              <li>Dual-Spinning Mop System</li>
-              <li>Auto Mop Lifting</li>
-              <li>Self-Cleaning Base</li>
+              <li>Smart Mapping</li>
+              <li>Auto Cleaning Station</li>
+              <li>Deep Clean Mode</li>
             </ul>
-            <div class="pcard__price"><span class="was">$1,099</span><span class="now">$899</span></div>
+            <div class="pcard__price">From <span class="now">$999</span> <span class="was">$1,199</span> · or $83/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
 
           <article class="pcard">
             <span class="pcard__tag pcard__tag--value">Best Value</span>
-            <div class="ph pcard__img">AX15</div>
+            <h3 class="pcard__name">X30</h3>
+            <div class="pcard__img ph">X30</div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#c9ccd1"></i></div>
+            <ul class="pcard__usp">
+              <li>Dual-Spinning Mop System</li>
+              <li>Auto Mop Lifting</li>
+              <li>Self-Cleaning Base</li>
+            </ul>
+            <div class="pcard__price">From <span class="now">$899</span> <span class="was">$1,099</span> · or $75/mo.</div>
+            <div class="pcard__cta">
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
+            </div>
+          </article>
+
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--value">Best Value</span>
             <h3 class="pcard__name">AX15</h3>
+            <div class="pcard__img ph">AX15</div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#1d1d1f"></i></div>
             <ul class="pcard__usp">
               <li>Powerful Suction</li>
               <li>Smart Obstacle Avoidance</li>
               <li>Compact Auto-Empty Dock</li>
             </ul>
-            <div class="pcard__price"><span class="was">$699</span><span class="now">$549</span></div>
+            <div class="pcard__price">From <span class="now">$549</span> <span class="was">$699</span> · or $46/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
         </div>
@@ -604,50 +647,85 @@
 
       <!-- Freo Series -->
       <div class="panel" data-panel="freo" hidden>
-        <div class="product-grid">
+        <div class="product-rail">
           <article class="pcard">
             <span class="pcard__tag">Flagship</span>
-            <div class="ph pcard__img">Freo Z Ultra</div>
             <h3 class="pcard__name">Freo Z Ultra</h3>
+            <div class="pcard__img"><img src="images/narwal-freo-z-ultra.png" alt="Freo Z Ultra" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#1d1d1f"></i><i style="background:#c9ccd1"></i></div>
             <ul class="pcard__usp">
               <li>Dual AI Chips</li>
               <li>Edge-to-Edge Mopping</li>
               <li>Hot Water Self-Wash</li>
             </ul>
-            <div class="pcard__price"><span class="was">$1,599</span><span class="now">$1,399</span></div>
+            <div class="pcard__price">From <span class="now">$1,399</span> <span class="was">$1,599</span> · or $117/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
           <article class="pcard">
             <span class="pcard__tag pcard__tag--seller">Best Seller</span>
-            <div class="ph pcard__img">Freo X Ultra</div>
             <h3 class="pcard__name">Freo X Ultra</h3>
+            <div class="pcard__img"><img src="images/narwal-freo-x-ultra.png" alt="Freo X Ultra" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#1d1d1f"></i></div>
             <ul class="pcard__usp">
               <li>Zero-Tangle Brush</li>
               <li>Auto Detergent Dosing</li>
               <li>DirtSense Cleaning</li>
             </ul>
-            <div class="pcard__price"><span class="was">$1,399</span><span class="now">$1,199</span></div>
+            <div class="pcard__price">From <span class="now">$1,199</span> <span class="was">$1,399</span> · or $100/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
+            </div>
+          </article>
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--seller">Best Seller</span>
+            <h3 class="pcard__name">Freo Z10 Ultra</h3>
+            <div class="pcard__img"><img src="images/narwal-freo-z10-ultra.png" alt="Freo Z10 Ultra" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#c9ccd1"></i></div>
+            <ul class="pcard__usp">
+              <li>AI Dirt Detection</li>
+              <li>Auto Mop Wash &amp; Dry</li>
+              <li>Smart Navigation</li>
+            </ul>
+            <div class="pcard__price">From <span class="now">$1,099</span> <span class="was">$1,299</span> · or $92/mo.</div>
+            <div class="pcard__cta">
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
           <article class="pcard">
             <span class="pcard__tag pcard__tag--value">Best Value</span>
-            <div class="ph pcard__img">Freo Pro</div>
+            <h3 class="pcard__name">Freo X10 Pro</h3>
+            <div class="pcard__img"><img src="images/narwal-freo-x10-pro.png" alt="Freo X10 Pro" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#1d1d1f"></i></div>
+            <ul class="pcard__usp">
+              <li>Compact Auto Station</li>
+              <li>Strong Mopping Pressure</li>
+              <li>Quiet Operation</li>
+            </ul>
+            <div class="pcard__price">From <span class="now">$899</span> <span class="was">$1,099</span> · or $75/mo.</div>
+            <div class="pcard__cta">
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
+            </div>
+          </article>
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--value">Best Value</span>
             <h3 class="pcard__name">Freo Pro</h3>
+            <div class="pcard__img"><img src="images/narwal-freo-pro.png" alt="Freo Pro" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#c9ccd1"></i></div>
             <ul class="pcard__usp">
               <li>Smart Mapping</li>
               <li>Auto-Empty &amp; Wash</li>
               <li>Quiet Mode</li>
             </ul>
-            <div class="pcard__price"><span class="was">$899</span><span class="now">$699</span></div>
+            <div class="pcard__price">From <span class="now">$699</span> <span class="was">$899</span> · or $58/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
         </div>
@@ -655,35 +733,37 @@
 
       <!-- Wet & Dry -->
       <div class="panel" data-panel="wetdry" hidden>
-        <div class="product-grid">
+        <div class="product-rail">
           <article class="pcard">
             <span class="pcard__tag pcard__tag--seller">Best Seller</span>
-            <div class="ph pcard__img">S20 Pro</div>
-            <h3 class="pcard__name">S20 Pro</h3>
+            <h3 class="pcard__name">Freo S</h3>
+            <div class="pcard__img"><img src="images/narwal-freo-s.png" alt="Freo S" /></div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#1d1d1f"></i></div>
             <ul class="pcard__usp">
               <li>Edge-Hugging Roller</li>
               <li>Self-Cleaning &amp; Drying</li>
               <li>Lightweight Design</li>
             </ul>
-            <div class="pcard__price"><span class="was">$499</span><span class="now">$399</span></div>
+            <div class="pcard__price">From <span class="now">$399</span> <span class="was">$499</span> · or $33/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
           <article class="pcard">
             <span class="pcard__tag pcard__tag--value">Best Value</span>
-            <div class="ph pcard__img">S10</div>
             <h3 class="pcard__name">S10</h3>
+            <div class="pcard__img ph">S10</div>
+            <div class="pcard__swatches"><i style="background:#f2f2f2"></i><i style="background:#c9ccd1"></i></div>
             <ul class="pcard__usp">
               <li>Strong Suction</li>
               <li>One-Touch Clean</li>
               <li>Long Battery Life</li>
             </ul>
-            <div class="pcard__price"><span class="was">$349</span><span class="now">$279</span></div>
+            <div class="pcard__price">From <span class="now">$279</span> <span class="was">$349</span> · or $23/mo.</div>
             <div class="pcard__cta">
-              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
-              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+              <a href="#" class="learn">Learn more ›</a>
+              <a href="#" class="buy">Buy</a>
             </div>
           </article>
         </div>
@@ -692,7 +772,7 @@
   </section>
 
   <!-- ============ 4. 配件区 ============ -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <div class="sec-head">
         <p class="eyebrow">Accessories</p>
