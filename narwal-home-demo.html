@@ -207,7 +207,21 @@
   }
   .hero__cta { display: flex; gap: 14px; flex-wrap: wrap; }
   .hero__visual { position: relative; }
-  .hero__stage { aspect-ratio: 4/3; }
+  .hero__stage { position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius); }
+  /* 用 CSS 裁切：object-position 偏右，只露出右侧产品主体，左侧烧录文案被裁掉 */
+  .hero__stage img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: 74% center;
+  }
+  .hero__stage .ph-fallback {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(45deg,#eef0f5,#eef0f5 12px,#e7eaf2 12px,#e7eaf2 24px);
+    border: 1px dashed #c7ccdd; border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    color: #9aa0ad; font-size: 13px; text-align: center; padding: 16px;
+  }
 
   /* 轮播指示点 */
   .hero__dots { display: flex; gap: 8px; margin-top: 22px; }
@@ -496,8 +510,12 @@
           <span class="pill">X30 · 高端背书</span>
           <span class="pill">AX15 / AX26 · 热销</span>
         </div>
-        <!-- 产品主视觉：真图到位后，把下面占位换成 <img src="images/hero-product.png" alt="Narwal Flow 2"> 即可 -->
-        <div class="ph hero__stage">产品主视觉（裁掉文案后的产品主体）<br />[ 图片待补 · 自动轮播 5–7s ]</div>
+        <!-- 图片落到 images/hero-banner.png 即自动显示；img 加载失败时显示占位 -->
+        <div class="hero__stage">
+          <div class="ph-fallback">产品主视觉<br />[ 待 images/hero-banner.png · 左侧文案由 CSS 自动裁切 ]</div>
+          <img src="images/hero-banner.png" alt="Narwal Flow 2"
+               onerror="this.style.display='none'" />
+        </div>
       </div>
     </div>
   </section>
