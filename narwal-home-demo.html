@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Narwal · Homepage Redesign Demo</title>
+<!-- 首页改版项目 Demo · 需求方：李力 · 上线：全球官网 -->
+<style>
+  :root {
+    --ink: #14132b;
+    --ink-soft: #4a4a68;
+    --ink-mute: #8b8ba3;
+    --line: #e8e8ef;
+    --bg: #f6f6fa;
+    --primary: #6b4dff;        /* 🟣 Primary 主色 */
+    --primary-dark: #4f33d6;
+    --primary-soft: #efeaff;
+    --radius: 16px;
+    --maxw: 1200px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Arial, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+
+  .container {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ====== 占位图（图片部分先跳过，用占位块） ====== */
+  .ph {
+    background:
+      repeating-linear-gradient(45deg,#eef0f5,#eef0f5 12px,#e7eaf2 12px,#e7eaf2 24px);
+    border: 1px dashed #c7ccdd;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9aa0bd;
+    font-size: 13px;
+    letter-spacing: .04em;
+    text-align: center;
+    padding: 16px;
+  }
+
+  /* ====== 通用按钮 ====== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all .2s ease;
+    white-space: nowrap;
+  }
+  .btn--primary { background: var(--primary); color: #fff; }
+  .btn--primary:hover { background: var(--primary-dark); }
+  .btn--ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+  .btn--ghost:hover { border-color: var(--primary); color: var(--primary); }
+  .btn--sm { padding: 9px 18px; font-size: 14px; }
+
+  /* ====== Section 通用标题 ====== */
+  .section { padding: 84px 0; }
+  .section--alt { background: var(--bg); }
+  .sec-head { text-align: center; margin-bottom: 48px; }
+  .sec-head .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+  .sec-head h2 {
+    font-size: clamp(26px, 3.4vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .sec-head p {
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 16px;
+  }
+
+  /* ============ 0. 公告栏 ============ */
+  .announce {
+    background: var(--ink);
+    color: #fff;
+    text-align: center;
+    font-size: 13.5px;
+    padding: 10px 16px;
+    letter-spacing: .02em;
+  }
+  .announce a { color: #c9bcff; text-decoration: underline; }
+
+  /* ============ 顶部导航（占位） ============ */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav__inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav__logo { font-weight: 800; font-size: 20px; letter-spacing: -.02em; }
+  .nav__logo span { color: var(--primary); }
+  .nav__links { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+  .nav__links a { text-decoration: none; color: var(--ink-soft); font-size: 15px; font-weight: 500; }
+  .nav__links a:hover { color: var(--primary); }
+
+  /* ============ 1. 首屏 Hero ============ */
+  .hero {
+    position: relative;
+    background: linear-gradient(160deg,#f3f0ff 0%, #fbfaff 60%, #fff 100%);
+    overflow: hidden;
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 40px;
+    align-items: center;
+    min-height: 560px;
+    padding: 56px 0;
+  }
+  .hero__badge {
+    display: inline-block;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .hero__h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+  }
+  .hero__sub {
+    font-size: clamp(18px, 2.2vw, 24px);
+    color: var(--ink-soft);
+    max-width: 460px;
+    margin: 0 0 32px;
+    font-weight: 500;
+  }
+  .hero__cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero__visual { position: relative; }
+  .hero__stage { aspect-ratio: 4/3; }
+
+  /* 轮播指示点 */
+  .hero__dots { display: flex; gap: 8px; margin-top: 22px; }
+  .hero__dots button {
+    width: 26px; height: 5px; border-radius: 99px; border: 0;
+    background: #d5d2e8; cursor: pointer; padding: 0;
+  }
+  .hero__dots button[aria-current="true"] { background: var(--primary); }
+  .hero__tag-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .pill {
+    font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;
+    background: #fff; border: 1px solid var(--line); color: var(--ink-soft);
+  }
+
+  /* ============ 2. 品牌信任数据 ============ */
+  .trust {
+    background: linear-gradient(90deg,#1c1840,#312a73);
+    color: #fff;
+    padding: 36px 0;
+    overflow: hidden;
+  }
+  .trust__track {
+    display: flex;
+    gap: 64px;
+    width: max-content;
+    animation: marquee 32s linear infinite;
+  }
+  .trust:hover .trust__track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  .trust__item { text-align: center; min-width: 160px; }
+  .trust__num {
+    font-size: 34px; font-weight: 800;
+    letter-spacing: -.02em;
+    background: linear-gradient(90deg,#fff,#c9bcff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .trust__label { font-size: 13px; color: #b7b2d8; margin-top: 4px; }
+
+  /* ============ 3. 产品系列区 ============ */
+  .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+  .tab {
+    border: 1px solid var(--line); background: #fff;
+    padding: 10px 22px; border-radius: 999px;
+    font-size: 15px; font-weight: 600; color: var(--ink-soft);
+    cursor: pointer; transition: all .2s;
+  }
+  .tab[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .panel[hidden] { display: none; }
+  .pcard {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 22px;
+    background: #fff;
+    display: flex; flex-direction: column;
+    transition: box-shadow .25s, transform .25s;
+  }
+  .pcard:hover { box-shadow: 0 18px 40px -22px rgba(60,40,160,.4); transform: translateY(-4px); }
+  .pcard__tag {
+    align-self: flex-start;
+    font-size: 12px; font-weight: 700;
+    padding: 4px 12px; border-radius: 999px;
+    background: var(--primary-soft); color: var(--primary-dark);
+    margin-bottom: 16px;
+  }
+  .pcard__tag--seller { background:#fff3e0; color:#c97a13; }
+  .pcard__tag--value  { background:#e6f7ee; color:#1e8e5a; }
+  .pcard__img { aspect-ratio: 1/1; margin-bottom: 18px; }
+  .pcard__name { font-size: 21px; font-weight: 800; margin: 0 0 12px; }
+  .pcard__usp { list-style: none; padding: 0; margin: 0 0 18px; }
+  .pcard__usp li {
+    font-size: 14px; color: var(--ink-soft);
+    padding-left: 22px; position: relative; margin-bottom: 6px;
+  }
+  .pcard__usp li::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 8px; height: 8px; border-radius: 50%; background: var(--primary);
+  }
+  .pcard__price { margin: auto 0 16px; }
+  .pcard__price .was { color: var(--ink-mute); text-decoration: line-through; font-size: 14px; margin-right: 8px; }
+  .pcard__price .now { font-size: 24px; font-weight: 800; }
+  .pcard__cta { display: flex; gap: 10px; }
+  .pcard__cta .btn { flex: 1; justify-content: center; }
+
+  /* ============ 4. 配件区 ============ */
+  .acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .acc-card {
+    border-radius: 20px;
+    background: var(--bg);
+    padding: 40px;
+    display: flex; flex-direction: column; align-items: flex-start;
+    min-height: 320px;
+    justify-content: space-between;
+  }
+  .acc-card__img { width: 100%; aspect-ratio: 16/9; margin-bottom: 24px; }
+  .acc-card h3 { font-size: 24px; margin: 0 0 16px; }
+
+  /* ============ 5. 使用场景 ============ */
+  .scene-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .scene {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 300px;
+    color: #fff;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(20,16,45,.15), rgba(20,16,45,.85));
+  }
+  .scene::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: repeating-linear-gradient(45deg,#3a3470,#3a3470 12px,#332d66 12px,#332d66 24px);
+  }
+  .scene__emoji { font-size: 30px; }
+  .scene h3 { font-size: 22px; margin: 12px 0 8px; font-weight: 800; }
+  .scene p { font-size: 14px; color: #e4e0f5; margin: 0 0 16px; }
+  .scene a { color: #fff; font-weight: 700; text-decoration: none; font-size: 14px; }
+  .scene a:hover { text-decoration: underline; }
+
+  /* ============ 6. Innovation 技术区 ============ */
+  .innov {
+    background: radial-gradient(circle at 30% 20%, #2a235e, #15122e 70%);
+    color: #fff;
+  }
+  .innov .sec-head h2 { color: #fff; }
+  .innov .sec-head .eyebrow { color: #b8a9ff; }
+  .innov-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+  .innov-card {
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 18px;
+    padding: 24px;
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(6px);
+  }
+  .innov-card .idx { color: #8d7bff; font-weight: 800; font-size: 14px; }
+  .innov-card h3 { font-size: 18px; margin: 14px 0 8px; }
+  .innov-card p { font-size: 13px; color: #b7b2d8; margin: 0; }
+  .innov__media { margin-top: 40px; aspect-ratio: 21/9; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.2); color:#a99eff; }
+
+  /* ============ 7. Awards ticker ============ */
+  .awards { overflow: hidden; }
+  .ticker {
+    display: flex; gap: 48px; width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+  .awards:hover .ticker { animation-play-state: paused; }
+  .quote {
+    border-left: 3px solid var(--primary);
+    padding: 8px 0 8px 18px;
+    max-width: 420px;
+    font-size: 16px; font-style: italic; color: var(--ink-soft);
+  }
+  .quote cite { display: block; font-style: normal; font-weight: 700; color: var(--ink); margin-top: 6px; font-size: 13px; }
+
+  /* ============ 8. 用户之声 ============ */
+  .ugc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+  .ugc { aspect-ratio: 9/16; position: relative; }
+  .ugc .play {
+    position: absolute; inset: 0; margin: auto;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,.85); color: var(--primary);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+
+  /* ============ 9. 购买保障 ============ */
+  .adv-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+  .adv {
+    text-align: center; padding: 28px 18px;
+    border: 1px solid var(--line); border-radius: 16px; background:#fff;
+  }
+  .adv__icon {
+    width: 52px; height: 52px; border-radius: 14px; margin: 0 auto 14px;
+    background: var(--primary-soft); color: var(--primary-dark);
+    display:flex; align-items:center; justify-content:center; font-size:24px;
+  }
+  .adv h3 { font-size: 16px; margin: 0 0 6px; }
+  .adv p { font-size: 13px; color: var(--ink-soft); margin: 0; }
+
+  /* ============ 10. Blog ============ */
+  .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .blog-card { border:1px solid var(--line); border-radius:18px; overflow:hidden; background:#fff; }
+  .blog-card .ph { border-radius:0; border:0; border-bottom:1px dashed #c7ccdd; aspect-ratio:16/9; }
+  .blog-card__body { padding: 22px; }
+  .blog-card__body span { font-size:12px; color:var(--primary); font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+  .blog-card__body h3 { font-size:18px; margin:8px 0 10px; }
+  .blog-card__body a { color:var(--ink); text-decoration:none; }
+  .blog-card__body a:hover { color:var(--primary); }
+
+  /* ============ Footer + 邮箱订阅 ============ */
+  .footer { background: var(--ink); color:#cfcee0; padding: 64px 0 40px; }
+  .subscribe { text-align:center; max-width:560px; margin:0 auto 48px; }
+  .subscribe h2 { color:#fff; font-size:26px; margin:0 0 10px; }
+  .subscribe p { margin:0 0 22px; color:#a9a8c4; }
+  .subscribe__form { display:flex; gap:10px; }
+  .subscribe__form input {
+    flex:1; border:0; border-radius:999px; padding:13px 20px; font-size:15px;
+  }
+  .footer__cols {
+    display:grid; grid-template-columns: repeat(4,1fr); gap:32px;
+    border-top:1px solid rgba(255,255,255,.1); padding-top:40px; font-size:14px;
+  }
+  .footer__cols h4 { color:#fff; font-size:14px; margin:0 0 14px; }
+  .footer__cols ul { list-style:none; padding:0; margin:0; }
+  .footer__cols li { margin-bottom:8px; }
+  .footer__cols a { color:#a9a8c4; text-decoration:none; }
+  .footer__cols a:hover { color:#fff; }
+
+  /* ============ 响应式 ============ */
+  @media (max-width: 960px) {
+    .hero__inner { grid-template-columns: 1fr; }
+    .product-grid, .innov-grid, .ugc-grid, .adv-grid, .blog-grid { grid-template-columns: repeat(2,1fr); }
+    .scene-grid { grid-template-columns: 1fr 1fr; }
+    .nav__links { display:none; }
+  }
+  @media (max-width: 560px) {
+    .product-grid, .acc-grid, .innov-grid, .ugc-grid, .adv-grid, .blog-grid, .scene-grid { grid-template-columns: 1fr; }
+    .subscribe__form { flex-direction: column; }
+    .footer__cols { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- SEO：页面无显性 H1，使用 Visually Hidden H1 -->
+  <h1 class="visually-hidden">Narwal Robot Vacuums and Mops for Smarter Home Cleaning</h1>
+
+  <!-- ============ 0. 公告栏（同步 banner） ============ -->
+  <div class="announce">
+    🎉 Summer Sale is live — Save up to $400 on Flow 2 &amp; X30 ·
+    <a href="#products">Shop Now</a>
+  </div>
+
+  <!-- ============ 顶部导航 ============ -->
+  <header class="nav">
+    <div class="container nav__inner">
+      <div class="nav__logo">Narwal<span>.</span></div>
+      <nav>
+        <ul class="nav__links">
+          <li><a href="#products">Products</a></li>
+          <li><a href="#scenes">Scenarios</a></li>
+          <li><a href="#innovation">Technology</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#support">Support</a></li>
+        </ul>
+      </nav>
+      <a href="#products" class="btn btn--primary btn--sm">Buy Now</a>
+    </div>
+  </header>
+
+  <!-- ============ 1. 首屏 Hero ============ -->
+  <section class="hero" id="hero" aria-label="Hero">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <span class="hero__badge">New · Flagship</span>
+        <p class="hero__h1">Narwal Flow 2</p>
+        <p class="hero__sub">Flagship Clean, Reimagined in White Intelligence.</p>
+        <div class="hero__cta">
+          <a href="#products" class="btn btn--primary">Buy Now</a>
+          <a href="#innovation" class="btn btn--ghost">Watch Video</a>
+        </div>
+        <div class="hero__dots" role="tablist" aria-label="Hero slides">
+          <button aria-current="true" aria-label="Flow 2"></button>
+          <button aria-label="X30 Flagship"></button>
+          <button aria-label="AX15"></button>
+          <button aria-label="AX26"></button>
+          <button aria-label="Promo"></button>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__tag-row">
+          <span class="pill">Flow 2 · 主推</span>
+          <span class="pill">X30 · 高端背书</span>
+          <span class="pill">AX15 / AX26 · 热销</span>
+        </div>
+        <div class="ph hero__stage">主视觉轮播 3–5 张（自动播放 · 停留 5–7s）<br />[ 图片待补 ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. 品牌信任数据 ============ -->
+  <section class="trust" aria-label="Brand trust data">
+    <div class="trust__track" id="trustTrack">
+      <!-- 一组数据，JS 复制一份实现无缝滚动 + count-up -->
+      <div class="trust__item"><div class="trust__num" data-count="30">30+</div><div class="trust__label">Countries &amp; Regions</div></div>
+      <div class="trust__item"><div class="trust__num" data-count="4.5">4.5M+</div><div class="trust__label">Global Users</div></div>
+      <div class="trust__item"><div class="trust__num" data-count="1200">1,200+</div><div class="trust__label">Patents</div></div>
+      <div class="trust__item"><div class="trust__num" data-count="10">10</div><div class="trust__label">Years of Innovation</div></div>
+      <div class="trust__item"><div class="trust__num">10M+ m²</div><div class="trust__label">Manufacturing Base</div></div>
+      <div class="trust__item"><div class="trust__num" data-count="2000">2,000+</div><div class="trust__label">Global Workforce</div></div>
+      <div class="trust__item"><div class="trust__num" data-count="500">500+</div><div class="trust__label">Service Stations</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. 产品系列区 ============ -->
+  <section class="section" id="products">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">Product System</p>
+        <h2>Find Your Perfect Cleaning System</h2>
+        <p>Not a catalogue — an intelligent cleaning system, built around the way you live.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Product series">
+        <button class="tab" role="tab" aria-selected="true" data-panel="flow">Flow Series</button>
+        <button class="tab" role="tab" aria-selected="false" data-panel="freo">Freo Series</button>
+        <button class="tab" role="tab" aria-selected="false" data-panel="wetdry">Wet &amp; Dry Vacuums</button>
+      </div>
+
+      <!-- Flow Series -->
+      <div class="panel" data-panel="flow">
+        <div class="product-grid">
+          <article class="pcard">
+            <span class="pcard__tag">Flagship</span>
+            <div class="ph pcard__img">Flow 2</div>
+            <h3 class="pcard__name">Flow 2</h3>
+            <ul class="pcard__usp">
+              <li>AI Smart Mapping 2.0</li>
+              <li>Fully Automated Cleaning Station</li>
+              <li>Ultra-Quiet Deep Cleaning System</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$1,499</span><span class="now">$1,299</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--seller">Best Seller</span>
+            <div class="ph pcard__img">X30</div>
+            <h3 class="pcard__name">X30</h3>
+            <ul class="pcard__usp">
+              <li>Dual-Spinning Mop System</li>
+              <li>Auto Mop Lifting</li>
+              <li>Self-Cleaning Base</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$1,099</span><span class="now">$899</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--value">Best Value</span>
+            <div class="ph pcard__img">AX15</div>
+            <h3 class="pcard__name">AX15</h3>
+            <ul class="pcard__usp">
+              <li>Powerful Suction</li>
+              <li>Smart Obstacle Avoidance</li>
+              <li>Compact Auto-Empty Dock</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$699</span><span class="now">$549</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Freo Series -->
+      <div class="panel" data-panel="freo" hidden>
+        <div class="product-grid">
+          <article class="pcard">
+            <span class="pcard__tag">Flagship</span>
+            <div class="ph pcard__img">Freo Z Ultra</div>
+            <h3 class="pcard__name">Freo Z Ultra</h3>
+            <ul class="pcard__usp">
+              <li>Dual AI Chips</li>
+              <li>Edge-to-Edge Mopping</li>
+              <li>Hot Water Self-Wash</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$1,599</span><span class="now">$1,399</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--seller">Best Seller</span>
+            <div class="ph pcard__img">Freo X Ultra</div>
+            <h3 class="pcard__name">Freo X Ultra</h3>
+            <ul class="pcard__usp">
+              <li>Zero-Tangle Brush</li>
+              <li>Auto Detergent Dosing</li>
+              <li>DirtSense Cleaning</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$1,399</span><span class="now">$1,199</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--value">Best Value</span>
+            <div class="ph pcard__img">Freo Pro</div>
+            <h3 class="pcard__name">Freo Pro</h3>
+            <ul class="pcard__usp">
+              <li>Smart Mapping</li>
+              <li>Auto-Empty &amp; Wash</li>
+              <li>Quiet Mode</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$899</span><span class="now">$699</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Wet & Dry -->
+      <div class="panel" data-panel="wetdry" hidden>
+        <div class="product-grid">
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--seller">Best Seller</span>
+            <div class="ph pcard__img">S20 Pro</div>
+            <h3 class="pcard__name">S20 Pro</h3>
+            <ul class="pcard__usp">
+              <li>Edge-Hugging Roller</li>
+              <li>Self-Cleaning &amp; Drying</li>
+              <li>Lightweight Design</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$499</span><span class="now">$399</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+          <article class="pcard">
+            <span class="pcard__tag pcard__tag--value">Best Value</span>
+            <div class="ph pcard__img">S10</div>
+            <h3 class="pcard__name">S10</h3>
+            <ul class="pcard__usp">
+              <li>Strong Suction</li>
+              <li>One-Touch Clean</li>
+              <li>Long Battery Life</li>
+            </ul>
+            <div class="pcard__price"><span class="was">$349</span><span class="now">$279</span></div>
+            <div class="pcard__cta">
+              <a href="#" class="btn btn--ghost btn--sm">Learn More</a>
+              <a href="#" class="btn btn--primary btn--sm">Buy Now</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. 配件区 ============ -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">Accessories</p>
+        <h2>Accessories That Complete Your System</h2>
+      </div>
+      <div class="acc-grid">
+        <div class="acc-card">
+          <div class="ph acc-card__img">Flow Accessories</div>
+          <div>
+            <h3>Flow Accessories</h3>
+            <a href="#" class="btn btn--ghost btn--sm">Learn More →</a>
+          </div>
+        </div>
+        <div class="acc-card">
+          <div class="ph acc-card__img">Freo Accessories</div>
+          <div>
+            <h3>Freo Accessories</h3>
+            <a href="#" class="btn btn--ghost btn--sm">Learn More →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. 使用场景 ============ -->
+  <section class="section" id="scenes">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">Usage Scenarios</p>
+        <h2>Usage Scenarios</h2>
+        <p>Designed for the way you live, move, and mess.</p>
+      </div>
+      <div class="scene-grid">
+        <article class="scene">
+          <div class="scene__emoji">🐾</div>
+          <h3>Pet hair doesn’t stand a chance.</h3>
+          <p>Fur, dander, and daily mess—cleaned before you even notice.</p>
+          <a href="#">Learn More ›</a>
+        </article>
+        <article class="scene">
+          <div class="scene__emoji">🏡</div>
+          <h3>More space, less effort.</h3>
+          <p>From room to room—without lifting a finger.</p>
+          <a href="#">Learn More ›</a>
+        </article>
+        <article class="scene">
+          <div class="scene__emoji">✨</div>
+          <h3>A shine you can see. A clean you can feel.</h3>
+          <p>Every step feels freshly cleaned.</p>
+          <a href="#">Learn More ›</a>
+        </article>
+        <article class="scene">
+          <div class="scene__emoji">🧶</div>
+          <h3>Deep clean that reaches what you can’t see.</h3>
+          <p>Not just surface clean—fiber-level purity.</p>
+          <a href="#">Learn More ›</a>
+        </article>
+        <article class="scene">
+          <div class="scene__emoji">🏢</div>
+          <h3>One home. Every level covered.</h3>
+          <p>Your home has layers. Your cleaning should too.</p>
+          <a href="#">Learn More ›</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. Innovation 技术区 ============ -->
+  <section class="section innov" id="innovation">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">Innovation</p>
+        <h2>Engineering the Future of Intelligent Cleaning</h2>
+      </div>
+      <div class="innov-grid">
+        <div class="innov-card">
+          <span class="idx">01</span>
+          <h3>Intelligent Mapping AI</h3>
+          <p>Real-time mapping that understands every corner of your home.</p>
+        </div>
+        <div class="innov-card">
+          <span class="idx">02</span>
+          <h3>Deep Cleaning Power System</h3>
+          <p>Maximum suction and pressure for a floor-deep clean.</p>
+        </div>
+        <div class="innov-card">
+          <span class="idx">03</span>
+          <h3>Hands-Free Maintenance Ecosystem</h3>
+          <p>Self-washing, self-drying, self-emptying — fully automated.</p>
+        </div>
+        <div class="innov-card">
+          <span class="idx">04</span>
+          <h3>EdgeReach™ Precision Cleaning</h3>
+          <p>Extends to capture dust along every wall and corner.</p>
+        </div>
+      </div>
+      <div class="ph innov__media">技术演示视频 / HUD 科技感动效（粒子流动 · 扫描线）<br />[ 视频待补 ]</div>
+    </div>
+  </section>
+
+  <!-- ============ 7. Awards & Recognition ============ -->
+  <section class="section awards section--alt" aria-label="Awards">
+    <div class="container sec-head" style="margin-bottom:36px;">
+      <p class="eyebrow">Awards &amp; Recognition</p>
+      <h2>Trusted by Experts Worldwide</h2>
+    </div>
+    <div class="ticker" id="awardTicker">
+      <blockquote class="quote">“Narwal redefines autonomous cleaning with unmatched precision.”<cite>— Tech Review</cite></blockquote>
+      <blockquote class="quote">“A genuine leap in hands-free home cleaning.”<cite>— Gadget Weekly</cite></blockquote>
+      <blockquote class="quote">“The smartest cleaning system we tested this year.”<cite>— Home Tech Lab</cite></blockquote>
+      <blockquote class="quote">“Premium engineering meets everyday convenience.”<cite>— The Verge*</cite></blockquote>
+    </div>
+  </section>
+
+  <!-- ============ 8. 用户之声 ============ -->
+  <section class="section" id="voices">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">Social Proof</p>
+        <h2>Real Homes. Real Results.</h2>
+        <p>“It changed how I clean forever.”</p>
+      </div>
+      <div class="ugc-grid">
+        <div class="ph ugc"><span>UGC 01</span><div class="play">▶</div></div>
+        <div class="ph ugc"><span>UGC 02</span><div class="play">▶</div></div>
+        <div class="ph ugc"><span>KOL 03</span><div class="play">▶</div></div>
+        <div class="ph ugc"><span>UGC 04</span><div class="play">▶</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 9. 购买保障 ============ -->
+  <section class="section section--alt" id="support">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">Trust Layer</p>
+        <h2>Exclusive Advantages</h2>
+      </div>
+      <div class="adv-grid">
+        <div class="adv"><div class="adv__icon">✅</div><h3>Authenticity Guarantee</h3><p>100% Genuine, Quality Assured</p></div>
+        <div class="adv"><div class="adv__icon">🔒</div><h3>Secure Payment</h3><p>Supports Multiple Payment Methods</p></div>
+        <div class="adv"><div class="adv__icon">💳</div><h3>Buy Now Pay Later</h3><p>Flexible Installment Plans Available</p></div>
+        <div class="adv"><div class="adv__icon">🚚</div><h3>Fast &amp; Free Shipping</h3><p>Receive your orders fast with complimentary shipping.</p></div>
+        <div class="adv"><div class="adv__icon">🛡️</div><h3>Warranty Coverage</h3><p>Effortlessly protect your purchases.</p></div>
+        <div class="adv"><div class="adv__icon">🏷️</div><h3>30-Day Price Protection</h3><p>No Reason Needed, Full Refund</p></div>
+        <div class="adv"><div class="adv__icon">⏱️</div><h3>Lifetime Support</h3><p>Our dedicated team is available 24/7.</p></div>
+        <div class="adv"><div class="adv__icon">↩️</div><h3>Easy Returns</h3><p>Hassle-free return process.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10. Blog 内容区 ============ -->
+  <section class="section" id="blog">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">Cleaning Intelligence</p>
+        <h2>Explore Cleaning Intelligence</h2>
+      </div>
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="ph">Blog Cover 1</div>
+          <div class="blog-card__body">
+            <span>Guide</span>
+            <h3><a href="#">{Blog title 1 — auto-fetched}</a></h3>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="ph">Blog Cover 2</div>
+          <div class="blog-card__body">
+            <span>Tips</span>
+            <h3><a href="#">{Blog title 2 — auto-fetched}</a></h3>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="ph">Blog Cover 3</div>
+          <div class="blog-card__body">
+            <span>Story</span>
+            <h3><a href="#">{Blog title 3 — auto-fetched}</a></h3>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 11. Footer + 邮箱订阅 ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="subscribe">
+        <h2>Stay in the Know</h2>
+        <p>Get smarter cleaning insights, product updates, and exclusive offers.</p>
+        <form class="subscribe__form" onsubmit="return false;">
+          <input type="email" placeholder="Enter your email" aria-label="Email" />
+          <button class="btn btn--primary" type="submit">Subscribe</button>
+        </form>
+      </div>
+      <div class="footer__cols">
+        <div>
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#">Flow Series</a></li>
+            <li><a href="#">Freo Series</a></li>
+            <li><a href="#">Wet &amp; Dry Vacuums</a></li>
+            <li><a href="#">Accessories</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Warranty</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Narwal</a></li>
+            <li><a href="#">Newsroom</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Follow</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">YouTube</a></li>
+            <li><a href="#">TikTok</a></li>
+            <li><a href="#">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  /* ===== 产品系列 Tab 切换 ===== */
+  document.querySelectorAll('.tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var target = tab.getAttribute('data-panel');
+      document.querySelectorAll('.tab').forEach(function (t) {
+        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+      });
+      document.querySelectorAll('.panel').forEach(function (p) {
+        p.hidden = p.getAttribute('data-panel') !== target;
+      });
+    });
+  });
+
+  /* ===== 信任数据：复制一份实现无缝滚动 ===== */
+  (function () {
+    var track = document.getElementById('trustTrack');
+    if (track) track.innerHTML += track.innerHTML;
+  })();
+
+  /* ===== Awards ticker：复制一份无缝滚动 ===== */
+  (function () {
+    var t = document.getElementById('awardTicker');
+    if (t) t.innerHTML += t.innerHTML;
+  })();
+
+  /* ===== 数字 count-up 动画（进入视口时触发） ===== */
+  (function () {
+    var nums = document.querySelectorAll('.trust__num[data-count]');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || e.target.dataset.done) return;
+        e.target.dataset.done = '1';
+        var end = parseFloat(e.target.dataset.count);
+        var suffix = e.target.textContent.replace(/[\d.,]/g, '');
+        var start = 0, dur = 1400, t0 = performance.now();
+        var decimals = end % 1 !== 0 ? 1 : 0;
+        function step(now) {
+          var p = Math.min((now - t0) / dur, 1);
+          var v = (start + (end - start) * (1 - Math.pow(1 - p, 3)));
+          var shown = decimals ? v.toFixed(1) : Math.round(v).toLocaleString();
+          e.target.textContent = shown + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.5 });
+    nums.forEach(function (n) { io.observe(n); });
+  })();
+</script>
+</body>
+</html>
