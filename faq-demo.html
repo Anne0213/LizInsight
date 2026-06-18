@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Narwal · Support FAQ Demo</title>
+<!-- FAQ Demo · 用于拦截可避免退货(根因A/B) · 答案待内部整理 -->
+<style>
+  :root {
+    --ink: #1d1d1f;
+    --ink-soft: #6e6e73;
+    --ink-mute: #86868b;
+    --line: #d2d2d7;
+    --bg: #f5f5f7;
+    --primary: #0071e3;
+    --primary-dark: #0066cc;
+    --primary-soft: #e8f1fd;
+    --radius: 14px;
+    --maxw: 940px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Arial, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  /* 顶部 */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav__logo { font-weight: 800; font-size: 20px; letter-spacing: -.02em; }
+  .nav__logo span { color: var(--primary); }
+  .nav__inner a { text-decoration: none; color: var(--ink-soft); font-size: 14px; font-weight: 600; }
+
+  /* Hero */
+  .head {
+    background: linear-gradient(165deg,#eef1f5 0%, #f6f8fb 50%, #fff 100%);
+    padding: 56px 0 40px; text-align: center;
+  }
+  .head h1 { font-size: clamp(30px,4vw,44px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 10px; }
+  .head p { color: var(--ink-soft); margin: 0 auto 24px; max-width: 540px; }
+  /* 搜索框（占位） */
+  .search {
+    display: flex; align-items: center; gap: 10px;
+    max-width: 520px; margin: 0 auto;
+    background: #fff; border: 1px solid var(--line); border-radius: 999px;
+    padding: 12px 20px; box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  .search input { flex: 1; border: 0; outline: 0; font-size: 15px; background: transparent; }
+  .search svg { width: 18px; height: 18px; stroke: var(--ink-mute); }
+
+  /* 主体布局：左侧分类导航 + 右侧问题 */
+  .layout { display: grid; grid-template-columns: 230px 1fr; gap: 40px; padding: 48px 0 80px; }
+
+  /* 左侧分类 */
+  .side { position: sticky; top: 84px; align-self: start; }
+  .side ul { list-style: none; margin: 0; padding: 0; }
+  .side li { margin-bottom: 4px; }
+  .side a {
+    display: flex; justify-content: space-between; align-items: center;
+    text-decoration: none; color: var(--ink-soft);
+    padding: 9px 14px; border-radius: 10px; font-size: 14px; font-weight: 600;
+    transition: background .15s, color .15s;
+  }
+  .side a:hover { background: var(--bg); color: var(--ink); }
+  .side a.active { background: var(--primary-soft); color: var(--primary-dark); }
+  .side a .n { font-size: 12px; color: var(--ink-mute); font-weight: 600; }
+
+  /* 右侧分组 */
+  .cat { margin-bottom: 44px; scroll-margin-top: 84px; }
+  .cat__head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+  .cat__head h2 { font-size: 22px; font-weight: 800; margin: 0; letter-spacing: -.01em; }
+  .cat__note { color: var(--ink-mute); font-size: 13px; margin: 0 0 18px; }
+  .badge {
+    font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+    background: var(--primary-soft); color: var(--primary-dark);
+  }
+  .badge--a { background:#fdecec; color:#c0392b; }
+  .badge--b { background:#fff3e0; color:#c97a13; }
+
+  /* 手风琴 */
+  .qa { border-bottom: 1px solid var(--line); }
+  .qa summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 4px; font-size: 16px; font-weight: 600;
+  }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary .qnum {
+    flex-shrink: 0; font-size: 13px; font-weight: 700; color: var(--primary);
+    min-width: 26px;
+  }
+  .qa summary .qtext { flex: 1; }
+  .qa summary .chev {
+    flex-shrink: 0; width: 18px; height: 18px; margin-top: 3px;
+    transition: transform .2s; stroke: var(--ink-mute);
+  }
+  .qa[open] summary .chev { transform: rotate(180deg); }
+  .qa__body {
+    padding: 0 4px 20px 44px; color: var(--ink-soft); font-size: 15px;
+  }
+  .qa__answer-ph {
+    border: 1px dashed var(--line); border-radius: 10px;
+    padding: 14px 16px; background: var(--bg); color: var(--ink-mute);
+    font-size: 14px;
+  }
+  .qa__meta { margin-top: 12px; font-size: 12.5px; color: var(--ink-mute); }
+  .qa__meta b { color: var(--ink-soft); }
+  .qzh { display: block; font-size: 12.5px; color: var(--ink-mute); font-weight: 500; margin-top: 3px; }
+
+  /* 底部提示条 */
+  .foot { background: var(--bg); border-top: 1px solid var(--line); padding: 28px 0; text-align: center; color: var(--ink-mute); font-size: 13px; }
+
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; gap: 0; }
+    .side { position: static; margin-bottom: 28px; }
+    .side ul { display: flex; flex-wrap: wrap; gap: 8px; }
+    .side a { background: var(--bg); }
+  }
+</style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav__inner">
+      <div class="nav__logo">Narwal<span>.</span> <span style="color:var(--ink-mute);font-weight:600;font-size:14px">Support</span></div>
+      <a href="#">← Back to store</a>
+    </div>
+  </header>
+
+  <section class="head">
+    <div class="container">
+      <h1>How can we help?</h1>
+      <p>Find answers before you buy — choose the right model, check home compatibility, and know what to expect.</p>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" placeholder="Search FAQs…" aria-label="Search FAQs" />
+      </div>
+    </div>
+  </section>
+
+  <div class="container layout">
+
+    <!-- 左侧分类导航 -->
+    <aside class="side">
+      <nav aria-label="FAQ categories">
+        <ul id="sideNav">
+          <li><a href="#cat1" class="active">Choosing a Model <span class="n">7</span></a></li>
+          <li><a href="#cat2">Home Compatibility <span class="n">7</span></a></li>
+          <li><a href="#cat3">Cleaning Performance <span class="n">6</span></a></li>
+          <li><a href="#cat4">Specs &amp; Expectations <span class="n">4</span></a></li>
+          <li><a href="#cat5">Setup &amp; Wi-Fi <span class="n">3</span></a></li>
+          <li><a href="#cat6">Pricing &amp; Buying <span class="n">5</span></a></li>
+          <li><a href="#cat7">Returns &amp; Exchange <span class="n">5</span></a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- 右侧问题列表 -->
+    <main id="faqMain">
+
+      <!-- 分类 1 -->
+      <section class="cat" id="cat1">
+        <div class="cat__head"><h2>Choosing the Right Model &amp; Version</h2><span class="badge badge--a">防买错 · A</span></div>
+        <p class="cat__note">拦截"买错机型/版本、误购"——售前把选型与版本差异说清。</p>
+
+        <details class="qa"><summary><span class="qnum">Q1</span><span class="qtext">What's the difference between the large (full) station and the compact station? Which should I choose?<span class="qzh">大基站 vs 小基站买反</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>选购页 / PDP</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q2</span><span class="qtext">What is the auto water-refill &amp; drainage ("plumbing") version, and what do I need at home to use it?<span class="qzh">误买上下水版 / 家里没条件</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>选购页 / PDP</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q3</span><span class="qtext">Can I use the plumbing version if I don't have a water line near the station? What are the installation prerequisites?<span class="qzh">家居不允许装上下水</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q4</span><span class="qtext">What's the difference between Flow and Flow 2 — and is it worth upgrading?<span class="qzh">Flow 1/2 混淆，多人退1买2</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / 对比页</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q5</span><span class="qtext">Flow vs Freo vs S-series — which model fits my home and needs?<span class="qzh">系列选择困难</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>选购页（"帮我选"向导）</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q6</span><span class="qtext">If I order the wrong model or version, can I exchange instead of returning?<span class="qzh">把"退货重买"转成"换货"</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ / 退换货页</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q7</span><span class="qtext">Which accessories / bundles are compatible with my model?<span class="qzh">配件/礼包错配</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / 配件页</div></div></details>
+      </section>
+
+      <!-- 分类 2 -->
+      <section class="cat" id="cat2">
+        <div class="cat__head"><h2>Home Compatibility</h2><span class="badge badge--b">防不适配 · B</span></div>
+        <p class="cat__note">拦截"与家居环境不适配"——把产品能力边界与安装前提前置。</p>
+
+        <details class="qa"><summary><span class="qnum">Q8</span><span class="qtext">What is the maximum mapping area? What happens if my home is larger?<span class="qzh">面积超最大建图</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP（关键规格）</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q9</span><span class="qtext">Does it work in multi-floor homes? How many floor maps does it support?<span class="qzh">多层住宅</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q10</span><span class="qtext">Does it clean long / high-pile (plush) carpets? Which carpet types are NOT supported?<span class="qzh">长毛地毯不适配</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q11</span><span class="qtext">Can it detect and clean dark / black carpets and floors?<span class="qzh">黑色地毯识别问题</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q12</span><span class="qtext">What's the minimum furniture clearance — will it get stuck under low sofas/beds?<span class="qzh">卡家具底下</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q13</span><span class="qtext">What floor types are supported (hardwood, tile, laminate, vinyl…)?<span class="qzh">地板兼容</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q14</span><span class="qtext">What do I need at home before setup (outlet location, water access, space for the station)?<span class="qzh">安装前提一次说清</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / FAQ</div></div></details>
+      </section>
+
+      <!-- 分类 3 -->
+      <section class="cat" id="cat3">
+        <div class="cat__head"><h2>Cleaning Performance &amp; Limits</h2><span class="badge badge--b">防期望落差 · B</span></div>
+        <p class="cat__note">拦截"清洁效果不佳 / 不符预期"——讲清效果与能力边界。</p>
+
+        <details class="qa"><summary><span class="qnum">Q15</span><span class="qtext">How well does it mop hard floors — will it leave residue or debris behind?<span class="qzh">复合地板留碎屑、效果差</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q16</span><span class="qtext">Does it fully replace manual mopping, or will I still need occasional touch-ups?<span class="qzh">用完还要手动再拖</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q17</span><span class="qtext">How does it handle edges, corners and along walls?<span class="qzh">边角清洁</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q18</span><span class="qtext">What types of dirt/spills/stains can it handle — and what is it NOT designed for?<span class="qzh">能力边界</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q19</span><span class="qtext">How does its deep-clean compare to a traditional vacuum + mop?<span class="qzh">对比传统工具的预期</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q20</span><span class="qtext">How does it perform with pet hair / households with kids creating frequent mess?<span class="qzh">家里小孩/宠物乱丢</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+      </section>
+
+      <!-- 分类 4 -->
+      <section class="cat" id="cat4">
+        <div class="cat__head"><h2>Specs &amp; Expectations</h2><span class="badge badge--b">防不符预期 · B</span></div>
+        <p class="cat__note">续航 / 水量 / 噪音 / 时长——给出可量化预期。</p>
+
+        <details class="qa"><summary><span class="qnum">Q21</span><span class="qtext">What is the battery runtime, and is it enough for large homes? Does it auto-recharge and resume?<span class="qzh">续航不够</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>PDP / FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q22</span><span class="qtext">How much water does it use, and can I adjust the water output?<span class="qzh">出水太多</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q23</span><span class="qtext">How loud is it during cleaning and at the station (self-cleaning/drying)?<span class="qzh">噪音 / 异响预期</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q24</span><span class="qtext">How long does a full cleaning cycle take?<span class="qzh">清洁时间长</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+      </section>
+
+      <!-- 分类 5 -->
+      <section class="cat" id="cat5">
+        <div class="cat__head"><h2>Setup &amp; Wi-Fi</h2><span class="badge badge--b">防配网退货 · B</span></div>
+        <p class="cat__note">拦截"配网问题、设置太复杂"——降低上手门槛。</p>
+
+        <details class="qa"><summary><span class="qnum">Q25</span><span class="qtext">What Wi-Fi does it require (2.4 GHz vs 5 GHz), and how do I fix connection failures?<span class="qzh">无法连 WiFi 退货</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ / 设置指南</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q26</span><span class="qtext">How do I set it up step-by-step, and how long does setup take?<span class="qzh">设置太复杂</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>设置指南</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q27</span><span class="qtext">Do I need the app? What does it require and what can it do?<span class="qzh">App 依赖</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+      </section>
+
+      <!-- 分类 6 -->
+      <section class="cat" id="cat6">
+        <div class="cat__head"><h2>Pricing, Promotions &amp; Buying</h2><span class="badge badge--a">防流失 · A</span></div>
+        <p class="cat__note">拦截"价格、改渠道、风险订单"——挽回流向亚马逊的官网订单。</p>
+
+        <details class="qa"><summary><span class="qnum">Q28</span><span class="qtext">Do you honor promotional / sale pricing, and what if a promo price didn't apply at checkout?<span class="qzh">母亲节无促销价</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ / 结账页</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q29</span><span class="qtext">Do you offer price matching or price protection after purchase?<span class="qzh">觉得贵 / 30 天价保</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q30</span><span class="qtext">Why was my order flagged for verification (risk review), is it safe, and how do I complete it?<span class="qzh">中风险验证觉得不安全 → 流失</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ / 结账页</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q31</span><span class="qtext">What are the differences between buying on the official site vs Amazon (price, warranty, support, returns)?<span class="qzh">用户转去亚马逊下单</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q32</span><span class="qtext">What payment methods and installment options are available?<span class="qzh">购买决策辅助</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>结账页 / FAQ</div></div></details>
+      </section>
+
+      <!-- 分类 7 -->
+      <section class="cat" id="cat7">
+        <div class="cat__head"><h2>Returns, Exchange &amp; "Try First"</h2><span class="badge">引导排障</span></div>
+        <p class="cat__note">政策透明 + 先排障/换货引导，降低直接退货。</p>
+
+        <details class="qa"><summary><span class="qnum">Q33</span><span class="qtext">What is the 30-day return policy, and what are the conditions (opened, accessories, bundles)?<span class="qzh">政策透明</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ / 退换货页</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q34</span><span class="qtext">Can I exchange for a different model instead of returning for a refund?<span class="qzh">退转换</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>退换货页</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q35</span><span class="qtext">Before returning, what troubleshooting and 1-on-1 support can I try first?<span class="qzh">先排障，少退货</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q36</span><span class="qtext">How long does an exchange or after-sales repair take?<span class="qzh">换货太久转退款 → 设预期</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+
+        <details class="qa"><summary><span class="qnum">Q37</span><span class="qtext">What happens if my package is lost or arrives damaged?<span class="qzh">丢件 / 开箱损的标准路径</span></span><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6"/></svg></summary><div class="qa__body"><div class="qa__answer-ph">答案待内部整理。</div><div class="qa__meta"><b>放置：</b>FAQ</div></div></details>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="foot">Demo · 共 37 个问题 / 7 类 · 答案待内部整理 · 上线后跟踪根因 A+B 退款占比（当前 ~76%）</div>
+
+<script>
+  // 左侧导航高亮 + 滚动定位
+  var links = document.querySelectorAll('#sideNav a');
+  var cats = document.querySelectorAll('.cat');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var id = e.target.id;
+        links.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+  cats.forEach(function (c) { io.observe(c); });
+
+  // 搜索过滤
+  var box = document.querySelector('.search input');
+  box.addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    cats.forEach(function (cat) {
+      var anyVisible = false;
+      cat.querySelectorAll('.qa').forEach(function (qa) {
+        var hit = qa.textContent.toLowerCase().indexOf(q) !== -1;
+        qa.style.display = hit ? '' : 'none';
+        if (hit) anyVisible = true;
+        if (q && hit) qa.open = true;
+        if (!q) qa.open = false;
+      });
+      cat.style.display = anyVisible ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>
